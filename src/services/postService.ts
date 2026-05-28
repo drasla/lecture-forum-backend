@@ -1,7 +1,8 @@
 import prisma from "../config/prisma.ts";
+import { PostCreateInput } from "../generated/prisma/models/Post.ts";
 
 const getPostsByCategory = async (categoryId: number, page: number, size: number) => {
-    const skip = (page -1) * size;
+    const skip = (page - 1) * size;
 
     // SELECT * FROM post WHERE categoryId = categoryId AND deletedAt = NULL ORDER BY id DESC
     const list = await prisma.post.findMany({
@@ -21,9 +22,9 @@ const getPostsByCategory = async (categoryId: number, page: number, size: number
                     id: true,
                     nickname: true,
                     email: true,
-                }
-            }
-        }
+                },
+            },
+        },
     });
 
     // SELECT COUNT(*) FROM post WHERE categoryId = categoryId AND deletedAt = NULL
@@ -31,7 +32,7 @@ const getPostsByCategory = async (categoryId: number, page: number, size: number
         where: {
             categoryId,
             deletedAt: null,
-        }
+        },
     });
 
     return {
@@ -39,9 +40,17 @@ const getPostsByCategory = async (categoryId: number, page: number, size: number
         size,
         total,
         list,
-    }
+    };
+};
+
+const createPost = async (postData: PostCreateInput) => {
+    // INSERT 쿼리를 전송
+    return prisma.post.create({
+        data: postData,
+    });
 };
 
 export default {
     getPostsByCategory,
+    createPost,
 };
