@@ -14,6 +14,7 @@ import * as core from "express-serve-static-core";
 // req.params (동적 라우팅)을 통해 경로에 추가로 들어오는 값을 나타내줬던 것
 
 // 우리가 만든 AuthRequest는 상속을 받았지만, 제네릭은 아님
+
 export interface AuthRequest<
     P = core.ParamsDictionary,
     ResBody = any,
@@ -21,7 +22,7 @@ export interface AuthRequest<
     ReqQuery = core.Query,
     Locals extends Record<string, any> = Record<string, any>,
 > extends Request<P, ResBody, ReqBody, ReqQuery, Locals> {
-    user?: User
+    user?: User;
 }
 
 // middleware로 사용할 녀석의 함수 매개변수는
